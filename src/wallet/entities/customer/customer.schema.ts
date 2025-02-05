@@ -1,10 +1,9 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Customer extends Document {
-
-    @Prop({required: true})
+    @Prop({ required: true })
     typeDocument: string;
 
     @Prop({ required: true, unique: true })
@@ -18,6 +17,8 @@ export class Customer extends Document {
 
     @Prop({ required: true, unique: true })
     email: string;
+
+    _id: Types.ObjectId;
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

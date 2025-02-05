@@ -1,10 +1,15 @@
-import {Controller, Post, Body, HttpCode, HttpStatus, Delete, Param, Get, Put} from '@nestjs/common';
+import {Controller, Post, Body, HttpCode, HttpStatus, Delete, Param, Get, Put, Query} from '@nestjs/common';
 import { UserService } from '../../services/user/user.service';
 
 @Controller('user')
 export class UserController {
 
     constructor(private readonly userService: UserService) {}
+
+    @Get('info')
+    getProfileInfo(@Query() params: { document: string, phone: string }) {
+        return this.userService.getProfileInfo(params);
+    }
 
     @Post()
     create(@Body() userDto: { customerId: string; email: string; password: string }) {

@@ -2,33 +2,45 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 export enum TransactionType {
-    RECARGA = 'RECARGA',
-    PAGO = 'PAGO',
+    RECHARGE = 'recharge',
+    PAYMENT = 'payment',
+    REFUND = 'refund',
+}
+
+export enum TransactionStatus {
+    PENDING = 'pending',
+    SUCCESS = 'success',
+    FAILED = 'failed',
 }
 
 @Schema({ timestamps: true })
 export class Transaction extends Document {
-
-    @Prop({ type: Types.ObjectId, ref: 'Customer', required: true })
-    customer: Types.ObjectId;
+    @Prop({ type: Types.ObjectId, ref: 'Wallet', required: true })
+    toWallet: Types.ObjectId;
 
     @Prop({ type: Types.ObjectId, ref: 'Wallet', required: true })
-    wallet: Types.ObjectId;
+    fromWallet: Types.ObjectId;
 
-    @Prop({ required: true, enum: Object.values(TransactionType) })
+    @Prop({ type: String, enum: TransactionType, required: true })
     type: TransactionType;
 
-    @Prop({ required: true })
-    mount: number;
+    @Prop({ required: true, min: 0 })
+    amount: number;
 
     @Prop({ required: true })
-    sessionId: string;
+    currency: string;
 
-    @Prop({ required: false })
-    token: string;
+    @Prop({ default: null })
+    confirmationCode?: string;
 
-    @Prop({ required: false })
-    confirmation: boolean;
+    @Prop({ default: null })
+    sessionId?: string;
+
+    @Prop({ type: String, enum: TransactionStatus, default: TransactionStatus.PENDING })
+    status: TransactionStatus;
+
+    @Prop({ default: null })
+    description?: string;
 }
 
 export const TransactionSchema = SchemaFactory.createForClass(Transaction);
