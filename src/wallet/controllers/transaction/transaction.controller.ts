@@ -21,6 +21,11 @@ export class TransactionController {
         return this.transactionService.findOne(id);
     }
 
+    @Get('wallet/:walletId/payments')
+    findPaymentsByWallet(@Param('walletId') walletId: string) {
+        return this.transactionService.findPaymentsByWallet(walletId);
+    }
+
     @Put(':id')
     update(@Param('id') id: string, @Body() updateTransactionDto: Partial<{ type: string; amount: number }>) {
         return this.transactionService.update(id, updateTransactionDto);

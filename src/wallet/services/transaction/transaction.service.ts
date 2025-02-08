@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
 import {Transaction} from "../../entities/transaction/transaction.schema";
-import {Model} from "mongoose";
+import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class TransactionService {
@@ -17,6 +17,11 @@ export class TransactionService {
 
     findAll() {
         return this.transactionModel.find();
+    }
+
+    findPaymentsByWallet(walletId: string) {
+        const objectId = new Types.ObjectId(walletId);
+        return this.transactionModel.find({ fromWallet: objectId });
     }
 
     findOne(id: string) {
