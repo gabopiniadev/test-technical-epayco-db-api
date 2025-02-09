@@ -19,6 +19,9 @@ export class Customer extends Document {
     email: string;
 
     _id: Types.ObjectId;
+    createdAt: Date;
+    updatedAt: Date;
+
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

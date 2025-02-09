@@ -41,6 +41,20 @@ export class Transaction extends Document {
 
     @Prop({ default: null })
     description?: string;
+
+    @Prop({
+        type: String,
+        unique: true,
+        required: false,
+        default: function () {
+            return this._id.toString();
+        },
+    })
+    transactionReference: string;
+
+    createdAt: Date;
+    updatedAt: Date;
+
 }
 
 export const TransactionSchema = SchemaFactory.createForClass(Transaction);

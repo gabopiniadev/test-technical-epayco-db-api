@@ -11,6 +11,11 @@ export class TransactionController {
         return this.transactionService.create(transactionDto);
     }
 
+    @Get('wallet/:walletId/payments')
+    findPaymentsByWallet(@Param('walletId') walletId: string) {
+        return this.transactionService.findPaymentsByWallet(walletId);
+    }
+
     @Get()
     findAll() {
         return this.transactionService.findAll();
@@ -19,11 +24,6 @@ export class TransactionController {
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.transactionService.findOne(id);
-    }
-
-    @Get('wallet/:walletId/payments')
-    findPaymentsByWallet(@Param('walletId') walletId: string) {
-        return this.transactionService.findPaymentsByWallet(walletId);
     }
 
     @Put(':id')

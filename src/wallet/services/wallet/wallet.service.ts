@@ -174,12 +174,9 @@ export class WalletService {
         };
     }
 
-    findAll() {
-        return this.walletModel.find();
-    }
-
-    findOne(id: string) {
-        return this.walletModel.findById(id);
+    async getWalletByCustomer(customerId: string) {
+        const customer = new Types.ObjectId(customerId);
+        return await this.walletModel.find({ customer: customer }).exec();
     }
 
     update(id: string, data: Partial<{ balance: number; currency: string }>) {

@@ -119,6 +119,23 @@ export class WalletController {
         }
     }
 
+    @Get('info')
+    async getWalletByCustomer(@Query('customerId') customerId: string) {
+        try {
+            const result = await this.walletService.getWalletByCustomer(customerId);
+            return {
+                success: true,
+                message: 'Billetera consultada exitosamente.',
+                data: result,
+            };
+        } catch (error) {
+            throw new HttpException(
+                { success: false, message: error.message },
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
     @Post()
     async create(@Body() walletDto: { customerId: string; balance: number; currency: string }) {
         const { customerId, balance, currency } = walletDto;
@@ -139,16 +156,6 @@ export class WalletController {
                 HttpStatus.INTERNAL_SERVER_ERROR,
             );
         }
-    }
-
-    @Get()
-    findAll() {
-        return this.walletService.findAll();
-    }
-
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.walletService.findOne(id);
     }
 
     @Put(':id')
